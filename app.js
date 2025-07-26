@@ -2,7 +2,7 @@
 var express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv').config({ path: '.env' });
-const chatGPTResponse = require('./services/apiService');
+const {chatGPTResponse, chatGPTChat} = require('./services/apiService');
 
 const port = process.env.PORT || 3000;
 
@@ -19,7 +19,7 @@ app.use(cors({
 }));
 
 //takes us to the root(/) URL
-app.get('/s1/hello', function (req, res) {
+app.get('/s1/check', function (req, res) {
 //when we visit the root URL express will respond with 'Hello World'
   res.json({ message: "hello there" }) 
 });
@@ -32,20 +32,26 @@ app.get('/s1/apikey', (req, res) => {
     API_KEY_CHATGPT: process.env.API_KEY_CHATGPT })
 })
 
-
-app.post('/chat', async (req, res) => {
-  const { prompt } = req.body;
-
+app.post('/s1/chatgptchat', async (req, res) => {
+  const { messages } = req.body;
   try {
-  console.log('1');
-    const gptResponse = await chatGPTResponse(prompt);
-  console.log('2');
+    const gptResponse = await chatGPTChat(messages);
     res.json(gptResponse);
-  console.log(gptResponse);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+app.post('/s1/chatgptprompt', async (req, res) => {
+  const { prompt } = req.body;
+  try {
+    const gptResponse = await chatGPTResponse(prompt);
+    res.json(gptResponse);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 //the server is listening on port 3000 for connections
 app.listen(port, function () {

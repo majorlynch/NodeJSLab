@@ -31,4 +31,27 @@ async function chatGPTResponse(prompt) {
   }
 };
 
-module.exports = chatGPTResponse;
+async function chatGPTChat(messages) {
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+  };
+
+  const body = {
+    model: 'gpt-4o-mini',
+    messages,
+    temperature: 0.7,
+  };
+
+  try {
+    const response = await axios.post(chatGPTApiUrl, body, { headers });
+    console.log(response);
+    return {"response" : response.data.choices[0].message.content};
+  } catch (error) {
+    console.error('ChatGPT API error:', error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+module.exports = {chatGPTResponse, chatGPTChat};
