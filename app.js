@@ -2,7 +2,8 @@
 var express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv').config({ path: '.env' });
-const {chatGPTResponse, chatGPTChat} = require('./services/apiService');
+const { deepseekChat, chatGPTChat } = require('./services/apiService');
+const { chatGPTGenImage } = require('./services/apiImageService');
 
 const port = process.env.PORT || 3000;
 
@@ -32,6 +33,16 @@ app.get('/s1/apikey', (req, res) => {
     API_KEY_CHATGPT: process.env.API_KEY_CHATGPT })
 })
 
+app.post('/s1/deepseekchat', async (req, res) => {
+  const { messages } = req.body;
+  try {
+    const deepSeekResponse = await deepseekChat(messages);
+    res.json(deepSeekResponse);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.post('/s1/chatgptchat', async (req, res) => {
   const { messages } = req.body;
   try {
@@ -42,10 +53,12 @@ app.post('/s1/chatgptchat', async (req, res) => {
   }
 });
 
-app.post('/s1/chatgptprompt', async (req, res) => {
-  const { prompt } = req.body;
+app.post('/s1/chatgptgenimage', async (req, res) => {
+  const { prompt, model } = req.body;
   try {
-    const gptResponse = await chatGPTResponse(prompt);
+    console.log('1');
+    const gptResponse = await chatGPTGenImage(prompt, model);
+    console.log('2');
     res.json(gptResponse);
   } catch (err) {
     res.status(500).json({ error: err.message });
