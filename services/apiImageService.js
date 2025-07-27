@@ -1,5 +1,5 @@
-const axios = require('axios');
 const { default: OpenAI } = require('openai');
+const fs = require('fs');
 
 chatAPTAI = new OpenAI({
   apiKey: process.env.API_KEY_CHATGPT
@@ -21,7 +21,17 @@ async function chatGPTGenImage(prompt, model) {
   */
     const imageUrl = 'https://madebyconor.com/assets/img/oprime.jpg';
     console.log('Generated Image URL:', imageUrl);
-    await sleep(2000);
+
+    const filePath = './imagescreated.txt';
+    const line = imageUrl;
+    fs.appendFile(filePath, line, (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+      return;
+    }
+    console.log('Line successfully added!');
+});
+
 
     return { "response": imageUrl };
 
