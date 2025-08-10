@@ -1,12 +1,12 @@
 const { default: OpenAI } = require('openai');
 const fs = require('fs');
+const config = require('./../config');
 
 chatAPTAI = new OpenAI({
-  apiKey: process.env.API_KEY_CHATGPT
+  apiKey: config.API_KEY_CHATGPT
 });
 
 async function chatGPTGenImage(prompt, model) {
-  console.log(prompt, model);
 
   try {
     /*
@@ -20,7 +20,6 @@ async function chatGPTGenImage(prompt, model) {
   const imageUrl = response.data[0].url;
   */
     const imageUrl = 'https://madebyconor.com/assets/img/oprime.jpg';
-    console.log('Generated Image URL:', imageUrl);
 
     const filePath = './imagescreated.txt';
     const line = imageUrl;
@@ -29,7 +28,6 @@ async function chatGPTGenImage(prompt, model) {
       console.error('Error writing to file:', err);
       return;
     }
-    console.log('Line successfully added!');
 });
 
 

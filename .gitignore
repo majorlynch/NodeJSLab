@@ -1,3 +1,5 @@
+.gitignore
 /node_modules
 .env
 imagescreated.txt
+config.js
