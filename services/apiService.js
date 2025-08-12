@@ -48,7 +48,7 @@ async function geminiChat(chatPrompt, userHistory, aiHistory) {
       message: chatPrompt,
     });
 
-    return this.response.text;
+    return { response: this.response.text };
   } catch (err) {
     throw {
       status: 500,
@@ -77,7 +77,7 @@ async function mistralChat(messages) {
         response += streamText;
       }
     }
-    return response;
+    return {response: response};
 }
 
 async function deepseekChat(messages) {
