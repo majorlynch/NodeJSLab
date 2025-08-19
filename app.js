@@ -38,6 +38,19 @@ app.post('/n1/geminichat', async (req, res) => {
   }
 })
 
+/*
+app.post('/n1/geminiimageread', async (req, res) => {
+  const { imageContent, prompt } = req.body;
+  try {
+    const geminiResponse = await geminiImageRead(imageContent, prompt);
+    res.json(geminiResponse);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+})
+*/
+
+
 app.post('/n1/deepseekchat', async (req, res) => {
   const { messages } = req.body;
   try {
