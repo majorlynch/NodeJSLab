@@ -90,4 +90,4 @@ async function geminiImageRead(imageContent, prompt) {
   }
 }
 */
-module.exports = { chatGPTGenImage, geminiImageRead }
+module.exports = { chatGPTGenImage}
